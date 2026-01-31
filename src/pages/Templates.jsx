@@ -1,13 +1,13 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import template1 from "../assets/temp1.png";
-import template2 from "../assets/temp2.png";
-import template3 from "../assets/temp3.png";
+import temp1 from "../assets/temp1.png";
+import temp2 from "../assets/temp2.png";
+import temp3 from "../assets/temp3.png";
 
 const templates = [
-  { id: 1, title: "Modern Resume", desc: "Clean & professional layout.", image: template1 },
-  { id: 2, title: "Creative Resume", desc: "Perfect for designers.", image: template2 },
-  { id: 3, title: "Minimal Resume", desc: "Simple & ATS-friendly.", image: template3 },
+  { id: 1, title: "Modern Resume", desc: "Clean & professional layout.", image: temp1 },
+  { id: 2, title: "Creative Resume", desc: "Perfect for designers.", image: temp2 },
+  { id: 3, title: "Minimal Resume", desc: "Simple & ATS-friendly.", image: temp3 },
 ];
 
 const Templates = () => {

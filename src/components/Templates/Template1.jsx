@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 const Template1 = () => {
   const location = useLocation();
-  const formData = location.state?.formData; // form se aaya data
+  const formData = location.state?.formData; 
 
   const [data, setData] = useState({
     fullName: "ARIANA WELLS",
@@ -26,7 +28,8 @@ const Template1 = () => {
     languages: ["English (Native)", "German (Fluent)"],
   });
 
-  // Update placeholder data with formData if exists
+  const cvRef = useRef(); // For capturing PDF
+
   useEffect(() => {
     if (formData) {
       setData((prev) => ({
@@ -50,20 +53,42 @@ const Template1 = () => {
   const handleChange = (field, value, index = null, subField = null) => {
     if (index !== null && Array.isArray(data[field])) {
       const updated = [...data[field]];
-      if (subField) {
-        updated[index][subField] = value;
-      } else {
-        updated[index] = value;
-      }
+      if (subField) updated[index][subField] = value;
+      else updated[index] = value;
       setData({ ...data, [field]: updated });
     } else {
       setData({ ...data, [field]: value });
     }
   };
 
+  // ---------- Save Resume locally ----------
+  const saveResume = () => {
+    localStorage.setItem("savedCV", JSON.stringify(data));
+    alert("CV saved successfully!");
+  };
+
+  // ---------- Download Resume as PDF ----------
+  const downloadResume = async () => {
+    const element = cvRef.current;
+    const canvas = await html2canvas(element, { scale: 2 });
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("p", "mm", "a4");
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    pdf.save(`${data.fullName}-Resume.pdf`);
+  };
+
   return (
-    <div className="min-h-screen bg-gray-300 py-10 flex justify-center items-start mt-20">
-      <div className="w-[210mm] min-h-[297mm] bg-white shadow-2xl flex overflow-hidden border border-gray-400">
+    <div className="min-h-screen bg-gray-300 py-10 flex flex-col items-center mt-20 gap-6">
+      {/* Buttons */}
+      <div className="flex gap-4">
+        <button onClick={saveResume} className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Save Resume</button>
+        <button onClick={downloadResume} className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">Download Resume</button>
+      </div>
+
+      {/* CV */}
+      <div ref={cvRef} className="w-[210mm] min-h-[297mm] bg-white shadow-2xl flex overflow-hidden border border-gray-400 mt-4">
         {/* LEFT BAR */}
         <div className="w-[35%] bg-[#0A1D37] text-white p-10 flex flex-col">
           <ContactSection data={data} handleChange={handleChange} />
@@ -82,7 +107,7 @@ const Template1 = () => {
   );
 };
 
-// --------- Sections ---------
+// ---- Sections (same as your code) ----
 const ContactSection = ({ data, handleChange }) => (
   <div className="mb-12">
     <h3 className="text-xs tracking-[4px] font-bold text-blue-400 mb-6 uppercase">Contact</h3>
