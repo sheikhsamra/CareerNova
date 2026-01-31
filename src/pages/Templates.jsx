@@ -21,7 +21,7 @@ const Templates = () => {
   };
 
   return (
-    <div className="min-h-screen px-6 md:px-16 py-12 bg-white dark:bg-black transition-colors duration-300">
+    <div className="min-h-screen px-6 md:px-16 py-12 bg-white dark:bg-black transition-colors duration-300 mt-20">
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">
           Choose Your Resume Template

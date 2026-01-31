@@ -10,7 +10,7 @@ const About = () => {
       <main className="min-h-screen px-6 md:px-20 py-20 
         bg-white dark:bg-black 
         text-gray-900 dark:text-gray-100 
-        transition-colors duration-300"
+        transition-colors duration-300 mt-20"
       >
         {/* HERO SECTION */}
         <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
