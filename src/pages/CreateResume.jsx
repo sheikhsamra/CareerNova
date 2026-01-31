@@ -64,13 +64,14 @@ const CreateResume = () => {
 
             <div className="grid md:grid-cols-2 gap-4">
               <input type="email" name="email" placeholder="Email" onChange={handleChange} className="input-theme" />
+<br />
               <input type="text" name="phone" placeholder="Phone" onChange={handleChange} className="input-theme" />
             </div>
-
+<br />
             <input type="text" name="location" placeholder="Location" onChange={handleChange} className="input-theme" />
-
             <div className="grid md:grid-cols-2 gap-4">
               <input type="text" name="website" placeholder="Website URL" onChange={handleChange} className="input-theme" />
+              <br />
               <input type="text" name="linkedIn" placeholder="LinkedIn URL" onChange={handleChange} className="input-theme" />
             </div>
           </div>

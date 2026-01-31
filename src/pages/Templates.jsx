@@ -1,8 +1,8 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import template1 from "../assets/template1.jpg";
-import template2 from "../assets/template2.png";
-import template3 from "../assets/template3.png";
+import template1 from "../assets/temp1.png";
+import template2 from "../assets/temp2.png";
+import template3 from "../assets/temp3.png";
 
 const templates = [
   { id: 1, title: "Modern Resume", desc: "Clean & professional layout.", image: template1 },

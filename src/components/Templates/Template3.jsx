@@ -56,7 +56,7 @@ const Template3 = () => {
             onChange={(e) => handleChange("fullName", e.target.value)} 
             className="text-5xl font-normal tracking-[0.15em] w-full bg-transparent focus:outline-none text-center uppercase"
           />
-          <div className="h-[1px] w-24 bg-[#C6AC8F] mx-auto my-4"></div>
+          <div className="h-px w-24 bg-[#C6AC8F] mx-auto my-4"></div>
           <input 
             value={data.jobTitle} 
             onChange={(e) => handleChange("jobTitle", e.target.value)} 
