@@ -1,0 +1,205 @@
+@import "tailwindcss/preflight";
+@tailwind utilities;
+@import "tailwindcss";
+/* global.css ya index.css */
+html {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body{
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.bg-gradient {
+  background: linear-gradient(
+    90deg,
+    #474c4b 0%,  /* Soft Gold */
+    #0f0f0f 50%,   /* Teal */
+    #222726 100% 
+  );
+}
+
+
+
+
+.logo{
+  /* Rich Golden Gradient using the hex codes provided earlier */
+  background: linear-gradient(
+    90deg,
+    #b4ffe8 0%,  /* Soft Gold */
+    #10b98c 50%,   /* Teal */
+    #48fad6 100% 
+  );
+  
+  /* This clips the background to the text shape */
+  -webkit-background-clip: text;
+  background-clip: text;
+  
+  /* Makes the original text color transparent so the gradient shows through */
+  color: transparent;
+  
+  /* Optional: Adds a bit of luxury feel */
+  display: inline-block;
+  font-family: "Luxurious Script", cursive;
+  font-weight: 500;
+  font-size: 50px;
+}
+
+/* Navbar styles */
+.menu-item {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  font-size: 15px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.menu-item::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px; 
+  background: linear-gradient(
+     90deg,
+    #b4ffe8 0%,  /* Soft Gold */
+    #10b98c 50%,   /* Teal */
+    #48fad6 100% 
+  ); 
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.menu-item:hover::after {
+  transform: scaleX(1);
+}
+
+.menu-item:hover{
+    transform: scale(1.1);
+}
+
+
+
+/* hero section styling */
+.heading {
+  background: linear-gradient(
+    90deg,
+    #b4ffe8 0%,  /* Soft Gold */
+    #10b98c 50%,   /* Teal */
+    #48fad6 100% 
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* PRIMARY BUTTON */
+.btn {
+  position: relative;
+  overflow: hidden;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-weight: 600;
+  color: white;
+ background: linear-gradient(
+    90deg,
+    #018e63 0%,  /* Soft Gold */
+    #10b98c 50%,   /* Teal */
+    #0d312a 100% 
+  );
+  z-index: 1;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+   background: linear-gradient(
+    90deg,
+    #b4ffe8 0%,  /* Soft Gold */
+    #10b98c 50%,   /* Teal */
+    #48fad6 100% 
+  );
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
+  z-index: -1;
+}
+
+.btn:hover::before {
+  transform: translateX(0);
+}
+
+/* OUTLINE BUTTON */
+.btn-outline {
+  position: relative;
+  overflow: hidden;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: 2px solid #11765d;
+  color: #25ebba;
+  z-index: 1;
+}
+
+.btn-outline::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+   background: linear-gradient(
+    90deg,
+    #018e63 0%,  /* Soft Gold */
+    #10b98c 50%,   /* Teal */
+    #0d312a 100% 
+  );
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
+  z-index: -1;
+}
+
+.btn-outline:hover::before {
+  transform: translateX(0);
+}
+
+.btn-outline:hover {
+  color: white;
+}
+
+
+
+.input-theme {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+  border: 2px solid #10b98c;
+  color: #9f9f9f;
+  transition: all 0.3s ease;
+}
+
+.dark .input-theme {
+  background-color: #0d312a;
+  color: #fdfdfd;
+  border: 2px solid #10b98c;
+}
+
+.input-theme:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #48fad6;
+  border-color: #48fad6;
+}
+
+select.input-theme {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' fill='%2310b98c' viewBox='0 0 24 24'><path d='M7 10l5 5 5-5H7z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1rem;
+  padding-right: 2rem;
+}
+
