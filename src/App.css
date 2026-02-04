@@ -2,16 +2,15 @@
 @tailwind utilities;
 @import "tailwindcss";
 /* global.css ya index.css */
-html {
-  transition: background-color 0.3s, color 0.3s;
-}
 
 body{
-  box-sizing: border-box;
   margin: 0 auto;
   padding: 0;
   font-family: 'Roboto', sans-serif;
 }
+
+
+
 
 .bg-gradient {
   background: linear-gradient(
@@ -22,18 +21,50 @@ body{
   );
 }
 
+.home, .nav{
+  background-color: white;
+  color: black;
+}
+
+.dark .home, .dark .nav{
+  background-color: black;
+  color: white
+}
+
+.login, .signup{
+  color: black;
+  padding: 0 10px;
+}
+.dark .login, .dark .signup{
+  color: white;
+}
+
 
 
 
 .logo{
-  /* Rich Golden Gradient using the hex codes provided earlier */
+  background: linear-gradient(
+    90deg,
+    #00ff59 0%, 
+    #469758 50%,
+    #48fad6 100% 
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+  font-weight: 500;
+  font-size: 30px;
+
+}
+
+.dark .logo{
   background: linear-gradient(
     90deg,
     #b4ffe8 0%,  /* Soft Gold */
     #10b98c 50%,   /* Teal */
     #48fad6 100% 
   );
-  
   /* This clips the background to the text shape */
   -webkit-background-clip: text;
   background-clip: text;
@@ -43,9 +74,6 @@ body{
   
   /* Optional: Adds a bit of luxury feel */
   display: inline-block;
-  font-family: "Luxurious Script", cursive;
-  font-weight: 500;
-  font-size: 50px;
 }
 
 /* Navbar styles */
@@ -58,6 +86,15 @@ body{
   transition: all 0.3s ease;
   text-decoration: none;
 }
+.dark .menu-item::after{
+   background: linear-gradient(
+     90deg,
+    #b4ffe8 0%,  /* Soft Gold */
+    #10b98c 50%,   /* Teal */
+    #48fad6 100% 
+  );
+}
+
 
 .menu-item::after {
   content: '';
@@ -65,13 +102,13 @@ body{
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 2px; 
-  background: linear-gradient(
-     90deg,
-    #b4ffe8 0%,  /* Soft Gold */
-    #10b98c 50%,   /* Teal */
+  height: 2px;  
+    background: linear-gradient(
+    90deg,
+    #00ff59 0%, 
+    #469758 50%,
     #48fad6 100% 
-  ); 
+  );
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s ease;
@@ -89,13 +126,15 @@ body{
 
 /* hero section styling */
 .heading {
-  background: linear-gradient(
-    90deg,
-    #b4ffe8 0%,  /* Soft Gold */
-    #10b98c 50%,   /* Teal */
-    #48fad6 100% 
-  );
+  background: linear-gradient(90deg, #00ff59, #469758, #48fad6); /* Light mode thoda dark green */
   -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.dark .heading {
+  background: linear-gradient(90deg, #b4ffe8, #10b98c, #48fad6);
+ -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
@@ -108,13 +147,17 @@ body{
   border-radius: 8px;
   font-weight: 600;
   color: white;
- background: linear-gradient(
-    90deg,
-    #018e63 0%,  /* Soft Gold */
-    #10b98c 50%,   /* Teal */
-    #0d312a 100% 
-  );
+ background: linear-gradient(90deg, #00ff59, #469758, #48fad6);
   z-index: 1;
+}
+
+.dark .btn {
+  background: linear-gradient(
+    90deg,
+    #b4ffe8 0%,  /* Soft Gold */
+    #10b98c 50%,   /* Teal */
+    #48fad6 100% 
+  );
 }
 
 .btn::before {
@@ -146,6 +189,12 @@ body{
   border: 2px solid #11765d;
   color: #25ebba;
   z-index: 1;
+  
+}
+
+.dark .btn-outline {
+  border: 2px solid #48fad6;
+  color: #48fad6;
 }
 
 .btn-outline::before {
@@ -178,12 +227,13 @@ body{
   padding: 0.6rem 1rem;
   border-radius: 0.5rem;
   border: 2px solid #10b98c;
-  color: #9f9f9f;
+  background-color: white; 
+  color: #333;
   transition: all 0.3s ease;
 }
 
 .dark .input-theme {
-  background-color: #0d312a;
+  background-color: #0d312a; 
   color: #fdfdfd;
   border: 2px solid #10b98c;
 }
@@ -196,7 +246,6 @@ body{
 
 select.input-theme {
   appearance: none;
-  background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' fill='%2310b98c' viewBox='0 0 24 24'><path d='M7 10l5 5 5-5H7z'/></svg>");
   background-repeat: no-repeat;
   background-position: right 0.5rem center;
   background-size: 1rem;

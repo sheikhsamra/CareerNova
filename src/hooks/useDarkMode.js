@@ -1,24 +1,20 @@
 import { useState, useEffect } from "react";
 
 const useDarkMode = () => {
-  const [darkMode, setDarkMode] = useState(false);
-
-  // Load theme from localStorage on mount
-  useEffect(() => {
+  const [darkMode, setDarkMode] = useState(() => {
+    // Check karo localStorage mein pehle se kya hai
     const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") {
-      setDarkMode(true);
-      document.documentElement.classList.add("dark");
-    }
-  }, []);
+    // Agar kuch saved nahi hai toh "false" (Light Mode) default rakho
+    return savedTheme === "dark" ? true : false;
+  });
 
-  // Persist theme changes
   useEffect(() => {
+    const root = window.document.documentElement;
     if (darkMode) {
-      document.documentElement.classList.add("dark");
+      root.classList.add("dark");
       localStorage.setItem("theme", "dark");
     } else {
-      document.documentElement.classList.remove("dark");
+      root.classList.remove("dark");
       localStorage.setItem("theme", "light");
     }
   }, [darkMode]);

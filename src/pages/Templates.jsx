@@ -14,7 +14,6 @@ const Templates = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const formData = location.state?.formData; // get data from previous page
-
   const handleUseTemplate = (templateId) => {
     // send formData to template page only when user clicks
     navigate(`/template/${templateId}`, { state: { formData } });

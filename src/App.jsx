@@ -12,8 +12,11 @@ import Template1 from "./components/Templates/Template1";
 import Template2 from "./components/Templates/Template2";
 import Template3 from "./components/Templates/Template3";
 import Footer from "./components/Footer";
+import useDarkMode from "./hooks/useDarkMode";
 
 function App() {
+  useDarkMode(); // Initialize the hook to load theme
+
   return (
     <div className="bg-white dark:bg-black min-h-screen text-gray-800 dark:text-gray-200">
       <Navbar />
