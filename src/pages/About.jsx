@@ -13,7 +13,7 @@ const About = () => {
       <main className="about-main min-h-screen px-6 md:px-20 py-20 mx-auto max-w-425 transition-colors duration-300">
         
         {/* HERO SECTION */}
-        <div className="grid md:grid-cols-2 gap-12 items-center mb-24 ">
+        <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
 
           <div className="relative group">
             <div className="image-glow-effect"></div>
