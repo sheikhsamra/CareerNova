@@ -4,8 +4,11 @@ import "../App.css";
 import hero from "../assets/hero.webp";
 import Templates from "./Templates";
 import About from "./About";
+import { useAuth } from "../context/AuthContext";
+import Marquee from "../components/Marquee";
 
 const Home = () => {
+  const { user } = useAuth();
   return (
     <>
       {/* bg-white (Light Mode default)
@@ -26,8 +29,8 @@ const Home = () => {
       >
         {/* TEXT SECTION */}
         <div className="w-full md:w-1/2 text-center md:text-left">
-          <h1 className="text-3xl md:text-5xl font-extrabold mb-6">
-            Welcome to <span className=" heading">CareerNova</span>
+          <h1 className="text-3xl md:text-6xl font-extrabold mb-6 text-black">
+            Welcome to <span className="heading">CareerNova</span>
           </h1>
 
           <p className="text-base md:text-xl mb-8 max-w-md mx-auto md:mx-0 text-gray-600 dark:text-gray-400">
@@ -37,7 +40,7 @@ const Home = () => {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
             <Link 
-              to="/signup" 
+              to={user ? "/createresume" : "/signup"} 
               className="btn px-8 py-3 text-white font-bold rounded-lg transition-all shadow-md"
             >
               Get Started
@@ -45,7 +48,7 @@ const Home = () => {
 
             <Link 
               to="/about" 
-              className="px-8 py-3 transition-all shadow-sm .btn-outline"
+              className="px-8 py-3 transition-all shadow-sm btn-outline"
             >
               Learn More
             </Link>
@@ -53,7 +56,7 @@ const Home = () => {
         </div>
 
         {/* IMAGE SECTION */}
-        <div className="w-full md:w-1/2 flex justify-center">
+        <div className="w-full flex justify-center transform transition duration-500 hover:scale-[1.02]">
           <img
             src={hero}
             alt="Hero"
@@ -61,6 +64,7 @@ const Home = () => {
           />
         </div>
       </main>
+        <Marquee />
 
       {/* About aur Templates sections ko bhi wrapper mein rakha hai */}
       <div className="bg-white dark:bg-black transition-colors duration-500">

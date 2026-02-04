@@ -1,215 +1,185 @@
 @import "tailwindcss/preflight";
 @tailwind utilities;
 @import "tailwindcss";
-/* global.css ya index.css */
 
-body{
+/* 1. Global Styles */
+* {
+  --tw-colors-oklch: none !important;
+}
+body {
   margin: 0 auto;
   padding: 0;
   font-family: 'Roboto', sans-serif;
-}
-
-
-
-
-.bg-gradient {
-  background: linear-gradient(
-    90deg,
-    #474c4b 0%,  /* Soft Gold */
-    #0f0f0f 50%,   /* Teal */
-    #222726 100% 
-  );
-}
-
-.home, .nav{
-  background-color: white;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: #ffffff;
   color: black;
+  --tw-text-opacity: 1;
+  color: rgb(31 41 55);
 }
 
-.dark .home, .dark .nav{
-  background-color: black;
-  color: white
+/* Dark Mode Trigger */
+.dark body {
+  background-color: #000000;
+  color: #ffffff;
 }
 
-.login, .signup{
-  color: black;
-  padding: 0 10px;
-}
-.dark .login, .dark .signup{
-  color: white;
+/* 2. Navbar & Sections Background */
+.nav, .home {
+  background-color: #ffffff;
+  transition: all 0.3s ease;
 }
 
+.dark .nav, .dark .home {
+  background-color: #000000;
+}
 
-
-
-.logo{
-  background: linear-gradient(
-    90deg,
-    #00ff59 0%, 
-    #469758 50%,
-    #48fad6 100% 
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  display: inline-block;
-  font-weight: 500;
+/* 3. Logo Styling */
+.logo {
+  font-weight: 700;
   font-size: 30px;
-
-}
-
-.dark .logo{
-  background: linear-gradient(
-    90deg,
-    #b4ffe8 0%,  /* Soft Gold */
-    #10b98c 50%,   /* Teal */
-    #48fad6 100% 
-  );
-  /* This clips the background to the text shape */
+  background: linear-gradient(90deg, #00bbff, #4f4697, #d348fa);
   -webkit-background-clip: text;
   background-clip: text;
-  
-  /* Makes the original text color transparent so the gradient shows through */
   color: transparent;
-  
-  /* Optional: Adds a bit of luxury feel */
   display: inline-block;
+  transition: all 0.3s ease;
 }
 
-/* Navbar styles */
+.dark .logo {
+  background: linear-gradient(90deg, #00ffb3, #69ffd7, #00ff1e);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* 4. Menu Items */
 .menu-item {
   position: relative;
-  display: inline-block;
-  overflow: hidden;
   font-size: 15px;
   text-transform: uppercase;
+  font-weight: 500;
+  color: #4b5563; 
   transition: all 0.3s ease;
-  text-decoration: none;
-}
-.dark .menu-item::after{
-   background: linear-gradient(
-     90deg,
-    #b4ffe8 0%,  /* Soft Gold */
-    #10b98c 50%,   /* Teal */
-    #48fad6 100% 
-  );
 }
 
+.dark .menu-item {
+  color: #d1d5db; 
+}
 
 .menu-item::after {
   content: '';
   position: absolute;
   left: 0;
-  bottom: 0;
+  bottom: -2px;
   width: 100%;
-  height: 2px;  
-    background: linear-gradient(
-    90deg,
-    #00ff59 0%, 
-    #469758 50%,
-    #48fad6 100% 
-  );
+  height: 2px;
+  background: linear-gradient(90deg, #00bbff, #d348fa);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s ease;
+}
+
+.dark .menu-item::after {
+  background: linear-gradient(90deg, #00ffb3, #69ffd7, #00ff1e);
 }
 
 .menu-item:hover::after {
   transform: scaleX(1);
 }
 
-.menu-item:hover{
-    transform: scale(1.1);
+.menu-item:hover {
+  transform: scale(1.1);
+  color: #4f4697;
 }
 
+.dark .menu-item:hover {
+  color: #10b98c;
+}
 
-
-/* hero section styling */
-.heading {
-  background: linear-gradient(90deg, #00ff59, #469758, #48fad6); /* Light mode thoda dark green */
+/* 5. Hero Section Styling (Heading) */
+.heading  {
+  background: linear-gradient(90deg, #0ea9e1, #4f4697, #d348fa);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  transition: all 0.3s ease;
 }
 
 .dark .heading {
-  background: linear-gradient(90deg, #b4ffe8, #10b98c, #48fad6);
- -webkit-background-clip: text;
+  background: linear-gradient(90deg, #00ffb3, #69ffd7, #00ff1e);
+  -webkit-background-clip: text;
   background-clip: text;
-  color: transparent;
+}
+.dark h1{
+  color: #ffffff;
 }
 
-/* PRIMARY BUTTON */
-.btn {
+/* 6. Primary Button (.btn) */
+.btn{
   position: relative;
   overflow: hidden;
   padding: 12px 28px;
   border-radius: 8px;
   font-weight: 600;
   color: white;
- background: linear-gradient(90deg, #00ff59, #469758, #48fad6);
+  background: linear-gradient(90deg, #00bbff, #4f4697);
   z-index: 1;
+  display: inline-block;
 }
 
 .dark .btn {
-  background: linear-gradient(
-    90deg,
-    #b4ffe8 0%,  /* Soft Gold */
-    #10b98c 50%,   /* Teal */
-    #48fad6 100% 
-  );
+  background: linear-gradient(90deg, #10ffb7, #92f6ff , #10b98c);
+  color: #1a1a1a;
 }
 
 .btn::before {
   content: "";
   position: absolute;
   inset: 0;
-   background: linear-gradient(
-    90deg,
-    #b4ffe8 0%,  /* Soft Gold */
-    #10b98c 50%,   /* Teal */
-    #48fad6 100% 
-  );
+  background: linear-gradient(90deg, #4f4697, #d348fa);
   transform: translateX(-100%);
   transition: transform 0.4s ease;
   z-index: -1;
+}
+
+.dark .btn::before {
+  background: linear-gradient(90deg, #00d192, #92f6ff , #00d92b);
 }
 
 .btn:hover::before {
   transform: translateX(0);
 }
 
-/* OUTLINE BUTTON */
+/* 7. Outline Button (.btn-outline) */
 .btn-outline {
   position: relative;
   overflow: hidden;
   padding: 12px 28px;
   border-radius: 8px;
   font-weight: 600;
-  border: 2px solid #11765d;
-  color: #25ebba;
   z-index: 1;
-  
+  display: inline-block;
+  border: 2px solid #4f4697;
+  color: #4f4697; /* Light mode text */
+  transition: color 0.4s ease;
 }
 
 .dark .btn-outline {
-  border: 2px solid #48fad6;
-  color: #48fad6;
+  border: 2px solid white;
+  color: white;
 }
 
 .btn-outline::before {
   content: "";
   position: absolute;
   inset: 0;
-   background: linear-gradient(
-    90deg,
-    #018e63 0%,  /* Soft Gold */
-    #10b98c 50%,   /* Teal */
-    #0d312a 100% 
-  );
+  background: linear-gradient(90deg, #00bbff, #4f4697);
   transform: translateX(-100%);
   transition: transform 0.4s ease;
   z-index: -1;
+}
+
+.dark .btn-outline::before {
+  background: linear-gradient(90deg, #00d192, #92f6ff , #00d92b);
 }
 
 .btn-outline:hover::before {
@@ -218,37 +188,486 @@ body{
 
 .btn-outline:hover {
   color: white;
+  border-color: transparent;
+}
+
+/* 8. Navbar Specific Buttons (Login/Signup/Logout) */
+.nav-btn {
+  position: relative;
+  padding: 8px 20px;
+  font-weight: 600;
+  border-radius: 6px;
+  overflow: hidden;
+  z-index: 1;
+  transition: all 0.4s ease;
+  background: #f3f4f6;
+  color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dark .nav-btn {
+  background: #111827;
+  color: #ffffff;
+}
+
+.nav-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #00bbff, #4f4697);
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
+  z-index: -1;
+}
+
+.dark .nav-btn::before {
+  background: linear-gradient(90deg, #00d192, #92f6ff , #00d92b);
+}
+
+.nav-btn:hover::before {
+  transform: translateX(0);
+}
+
+.nav-btn:hover {
+  color: white;
+}
+
+/* 9. Mobile Menu Overlay */
+.overlay {
+  background-color: #ffffff;
+  color: black;
+}
+.dark .overlay {
+  background-color: #000000;
+  color: white;
+}
+
+.toggle-btn {
+  background-color: #f3f4f6;
+  color: #1a1a1a;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+.toggle-btn:hover{
+  background-color: #e5e7eb;
+  color: #6f5fea;
+}
+
+.dark .toggle-btn {
+  background-color: #111827;
+  color: #ffffff;
+}
+
+.dark .toggle-btn:hover {
+  background-color: #1f2937;
+  color: #10b98c;
 }
 
 
 
-.input-theme {
-  width: 100%;
-  padding: 0.6rem 1rem;
-  border-radius: 0.5rem;
-  border: 2px solid #10b98c;
-  background-color: white; 
-  color: #333;
+
+/* ============================================================= */
+/* --- INFINITE MARQUEE CUSTOM COLORS --- */
+
+.marquee-wrapper {
+  background-color: #ffffff;
+  border-color: #e5e7eb;
+}
+
+.dark .marquee-wrapper {
+  background-color: #050c0b; /* Dark Teal Black */
+  border-color: #11312a;
+}
+
+.marquee-text {
+  color: #1a1a1a;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+.marquee-text:hover {
+  opacity: 1;
+  color: #4f4697;
+}
+.dark .marquee-text {
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(16, 185, 140, 0.3); /* Teal Glow */
+}
+
+.marquee-dot {
+  background-color: #4f4697; /* Light mode color */
+  box-shadow: 0 0 10px rgba(79, 70, 151, 0.4);
+}
+
+.dark .marquee-dot {
+  background-color: #10b98c; /* Neon Teal */
+  box-shadow: 0 0 15px rgba(16, 185, 140, 0.6);
+}
+
+/* Jab mouse upar jaye toh thora shine kare */
+.dark .marquee-text:hover {
+  opacity: 1;
+  color: #10b98c;
+}
+
+
+
+
+
+/* =================================================================== */
+/* About section */
+.dark .heading {
+  background: linear-gradient(90deg, #00ffb3, #69ffd7, #00ff1e);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.group {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* --- COLOR THEME MANAGEMENT --- */
+
+/* Background Theme */
+.about-main {
+  background-color: #f3f4f6; /* Light Mode */
+}
+.dark .about-main {
+  background-color: #000000; /* Dark Mode */
+}
+
+/* Text Colors */
+.about-text {
+  color: #4b5563; /* Gray in light */
+}
+.dark .about-text {
+  color: #9ca3af; /* Light gray in dark */
+}
+
+.about-title, .card-title {
+  color: #1a1a1a;
+}
+.dark .about-title, .dark .card-title {
+  color: #ffffff;
+}
+
+.highlight-text {
+  color: #4f4697;
+}
+.dark .highlight-text {
+  color: #10b98c;
+}
+
+/* Custom Line & Borders */
+.custom-line {
+  background-color: #4f4697;
+}
+.dark .custom-line {
+  background-color: #10b98c;
+}
+
+/* Card Theme */
+.about-card-theme {
+  background-color: #f9fafb;
+  border-color: #e5e7eb;
+}
+.dark .about-card-theme {
+  background-color: #0a1a17; /* Dark Teal Black */
+  border-color: #11312a;
+}
+.about-card-theme:hover {
+  border-color: #4f4697;
+}
+.dark .about-card-theme:hover {
+  border-color: #10b98c;
+}
+
+/* Icon Colors (Static States) */
+.icon-bg-teal { background: rgba(16, 185, 140, 0.1); }
+.icon-teal { color: #10b98c; }
+
+.icon-bg-yellow { background: rgba(250, 204, 21, 0.1); }
+.icon-yellow { color: #facc15; }
+
+.icon-bg-cyan { background: rgba(72, 250, 214, 0.1); }
+.icon-cyan { color: #48fad6; }
+
+/* Image Glow */
+.image-glow-effect {
+  position: absolute;
+  inset: -5px;
+  background: linear-gradient(90deg, #10b98c, #48fad6);
+  border-radius: 15px;
+  filter: blur(15px);
+  opacity: 0;
+  transition: 0.5s;
+}
+.dark .image-glow-effect {
+  opacity: 0.3;
+}
+
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+
+
+
+/* ================================================= */
+/* --- TEMPLATES PAGE COLOR THEME --- */
+
+.template-main {
+  background-color: #ffffff; /* Light Mode */
+}
+.dark .template-main {
+  background-color: #000000; /* Dark Mode */
+}
+
+.template-title {
+  color: #1a1a1a;
+}
+.dark .template-title {
+  color: #ffffff;
+}
+
+.template-desc {
+  color: #4b5563;
+}
+.dark .template-desc {
+  color: #9ca3af;
+}
+
+/* Card Styling */
+.template-card-theme {
+  background-color: #f9fafb;
+  border-color: #e5e7eb;
+}
+
+.dark .template-card-theme {
+  background-color: #0a1a17; /* Dark Teal Black */
+  border-color: #11312a;
+}
+
+/* Card Text */
+.card-title-text {
+  color: #1a1a1a;
+}
+.dark .card-title-text {
+  color: #ffffff;
+}
+
+.template-card-p {
+  color: #6b7280;
+}
+.dark .template-card-p {
+  color: #9ca3af;
+}
+
+/* Hover Effect on Cards */
+.template-card-theme:hover {
+  border-color: #4f4697;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.dark .template-card-theme:hover {
+  border-color: #10b98c;
+  box-shadow: 0 10px 30px rgba(16, 185, 140, 0.2);
+}
+
+/* Button override for Templates page specifically if needed */
+.template-card-theme .btn {
+  display: block;
+  text-align: center;
+}
+/* Steps Section Background & Theme */
+.steps-container {
+  background-color: #f3f4f6; /* Light gray in light mode */
+  border-top: 1px solid #e5e7eb;
+}
+
+.dark .steps-container {
+  background-color: #050c0b; /* Deep Dark Teal in dark mode */
+  border-top: 1px solid #11312a;
+}
+
+.step-heading {
+  color: #1a1a1a;
+}
+.dark .step-heading {
+  color: #ffffff;
+}
+
+.step-line {
+  background-color: #4f4697;
+}
+.dark .step-line {
+  background-color: #10b98c;
+}
+
+/* Icon Wrappers */
+.icon-wrapper {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  border: 2px solid transparent;
   transition: all 0.3s ease;
 }
 
-.dark .input-theme {
-  background-color: #0d312a; 
-  color: #fdfdfd;
-  border: 2px solid #10b98c;
+.dark .icon-wrapper {
+  background: #0a1a17;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
-.input-theme:focus {
+.border-teal { border-color: rgba(16, 185, 140, 0.2); }
+.border-yellow { border-color: rgba(250, 204, 21, 0.2); }
+.border-cyan { border-color: rgba(72, 250, 214, 0.2); }
+
+/* Hover Effects */
+.step-card:hover .icon-wrapper {
+  transform: scale(1.1);
+  background: #10b98c;
+}
+.step-card:hover .icon-wrapper svg {
+  color: white !important;
+}
+
+.step-card-title {
+  color: #1a1a1a;
+}
+.dark .step-card-title {
+  color: #ffffff;
+}
+.step-card:hover .step-card-title {
+  color: #10b98c;
+}
+
+/* Ensure GSAP targets are visible initially if JS fails */
+.step-card {
+  will-change: transform, opacity;
+}
+
+
+
+
+
+/* ========================================================== */
+/* Create resume section  */
+/* --- CREATE RESUME PAGE THEME --- */
+
+.resume-container {
+  background-color: #f3f4f6;
+}
+.dark .resume-container {
+  background-color: #000000;
+}
+
+.resume-card-theme {
+  background-color: #ffffff;
+  border-color: #e5e7eb;
+}
+.dark .resume-card-theme {
+  background-color: #0a1a17;
+  border-color: #00d7a8;
+}
+
+/* Input Styles */
+.input-theme {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  color: #1a1a1a;
   outline: none;
-  box-shadow: 0 0 0 2px #48fad6;
+  transition: all 0.3s;
+}
+.input-theme:focus {
+  border-color: #00bbff;
+  box-shadow: 0 0 0 3px rgba(0, 187, 255, 0.1);
+}
+
+.dark .input-theme:focus {
+  border-color: #10b98c;
+  box-shadow: 0 0 0 3px rgba(16, 185, 140, 0.1);
+}
+
+.dark .input-theme {
+  background-color: #050c0b;
+  border-color: #1a3a34;
+  color: #ffffff;
+}
+
+.dark .input-theme:focus {
   border-color: #48fad6;
 }
 
-select.input-theme {
-  appearance: none;
-  background-repeat: no-repeat;
-  background-position: right 0.5rem center;
-  background-size: 1rem;
-  padding-right: 2rem;
+/* Dynamic Box Styles */
+.dynamic-box-theme {
+  background-color: #f9fafb;
+  border-color: #e5e7eb;
+}
+.dark .dynamic-box-theme {
+  background-color: #202225;
+  border-color: #1a3a34;
+}
+
+.dynamic-title {
+  color: #4f4697;
+}
+.dark .dynamic-title {
+  color: #10b98c;
+}
+
+.dynamic-item-border {
+    border: 1px dashed #d1d5db;
+}
+.dark .dynamic-item-border {
+    border: 1px dashed #1a3a34;
+}
+
+/* Small Button for "Add More" */
+.btn-small {
+    background-color: #4f4697;
+    color: white;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+.dark .btn-small {
+    background-color: #10b98c;
+    color: white;
+}
+.dark .btn-small:hover {
+    background-color: #0e9e78;
+    transform: translateY(-1px);
+}
+.section-heading {
+  color: #4f4697;
+  border-bottom: 1px solid #4f4697;
+}
+.dark .section-heading {
+  color: #10b98c;
+  border-bottom: 1px solid #10b98c;
 }
 

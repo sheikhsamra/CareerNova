@@ -9,7 +9,7 @@ import useDarkMode from "../hooks/useDarkMode";
 
 const Navbar = () => {
   const { user } = useAuth();
-  const [darkMode, setDarkMode] = useDarkMode(); // Dark mode hook
+  const [darkMode, setDarkMode] = useDarkMode();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogout = async () => {
@@ -17,79 +17,55 @@ const Navbar = () => {
     setMobileMenuOpen(false);
   };
 
-  // Switch Theme Function
-  const toggleTheme = () => {
-    setDarkMode(!darkMode);
-  };
-
-  // Original button style classes
-  const btnGradient =
-    "relative inline-block px-4 py-2 font-medium text-white rounded overflow-hidden group";
-  const btnGradientInner =
-    "absolute inset-0 bg-gradient-to-r from-[#10b98c] via-[#48fad6] to-[#0d312a] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500";
-
   return (
-    <nav className="fixed top-0 left-0 right-0 mx-auto w-full max-w-425 z-50 bg-white dark:bg-black transition-colors duration-300 py-4 nav">
-      <div className="flex justify-between items-center p-2 md:px-12">
+    <nav className="fixed top-0 left-0 right-0 mx-auto w-full max-w-425 z-50 transition-colors duration-300 nav shadow-md">
+      <div className="flex justify-between items-center p-4 md:px-12">
         {/* Logo */}
-        <Link to="/" className="logo cursor-pointer text-lg md:text-2xl font-bold text-transparent bg-clip-text bg-linear-to-r from-[#10b98c] via-[#48fad6] to-[#0d312a]">
+        <Link to="/" className="logo cursor-pointer">
           CareerNova
         </Link>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex space-x-6">
-          <Link to="/" className="hover:text-[#10b98c] transition menu-item">Home</Link>
-          <Link to="/about" className="hover:text-[#10b98c] transition menu-item">About</Link>
-          <Link to="/templates" className="hover:text-[#10b98c] transition menu-item">Templates</Link>
-          <Link to="/Createresume" className="hover:text-[#10b98c] transition menu-item">Create Resume</Link>
-          {user && <Link to="/dashboard" className="hover:text-[#10b98c] transition menu-item">Dashboard</Link>}
+        <div className="hidden md:flex space-x-8">
+          <Link to="/" className="menu-item">Home</Link>
+          <Link to="/about" className="menu-item">About</Link>
+          <Link to="/templates" className="menu-item">Templates</Link>
+          <Link to="/Createresume" className="menu-item">Create Resume</Link>
+          {user && <Link to="/dashboard" className="menu-item">Dashboard</Link>}
         </div>
 
         {/* Desktop Buttons + Theme Toggle */}
-        <div className="hidden md:flex items-center space-x-4">
+        <div className="hidden md:flex items-center space-x-5">
           {user ? (
-            <button onClick={handleLogout} className={btnGradient}>
-              <span className={btnGradientInner}></span>
-              <span className="relative flex items-center gap-1">
+            <button onClick={handleLogout} className="nav-btn">
+              <span className="relative flex items-center gap-2">
                 <MdLogout /> Logout
               </span>
             </button>
           ) : (
             <>
-              <Link to="/login" className={btnGradient}>
-                <span className={btnGradientInner}></span>
-                <span className="relative login">Login</span>
-              </Link>
-              <Link to="/signup" className={btnGradient}>
-                <span className={btnGradientInner}></span>
-                <span className="relative signup">Signup</span>
-              </Link>
+              <Link to="/login" className="nav-btn">Login</Link>
+              <Link to="/signup" className="nav-btn">Signup</Link>
             </>
           )}
 
-          {/* Theme Toggle Button (Desktop) */}
+          {/* Theme Toggle */}
           <button
-          onClick={() => setDarkMode(!darkMode)} // Ab ye sahi toggle karega
-          className="p-2 rounded-full transition hover:text-[#10b98c] dark:text-[#48fad6]"
-        >
-        {darkMode ? <BsSun size={20} /> : <BsMoon size={20} />}
-        </button>
+            onClick={() => setDarkMode(!darkMode)}
+            className="p-2 rounded-full transition-all hover:scale-110 toggle-btn "
+          >
+            {darkMode ? <BsSun size={24} /> : <BsMoon size={24} />}
+          </button>
         </div>
 
-        {/* Mobile View Icons */}
-        <div className="md:hidden flex items-center gap-3">
-          {/* Theme Toggle Button (Mobile) */}
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-yellow-400 transition"
-          >
-            {darkMode ? <BsSun size={20} /> : <BsMoon size={20} />}
+        {/* Mobile View Toggle */}
+        <div className="md:hidden flex items-center gap-4">
+          <button onClick={() => setDarkMode(!darkMode)} className="toggle-btn">
+            {darkMode ? <BsSun size={22} /> : <BsMoon size={22} />}
           </button>
-          
-          {/* Hamburger Menu */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-2xl text-gray-800 dark:text-gray-200"
+            className="text-2xl toggle-btn"
           >
             {mobileMenuOpen ? <MdClose /> : <MdMenu />}
           </button>
@@ -97,39 +73,45 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu Overlay */}
-      <div
-        className={`fixed top-0 left-0 w-full h-screen bg-white dark:bg-black z-40 flex flex-col items-start px-10 justify-center space-y-6 md:hidden transition-transform duration-300 ${
-          mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <Link to="/" className="text-2xl text-gray-800 dark:text-gray-200" onClick={() => setMobileMenuOpen(false)}>Home</Link>
-        <Link to="/about" className="text-2xl text-gray-800 dark:text-gray-200" onClick={() => setMobileMenuOpen(false)}>About</Link>
-        <Link to="/templates" className="text-2xl text-gray-800 dark:text-gray-200" onClick={() => setMobileMenuOpen(false)}>Templates</Link>
-        <Link to="/Createresume" className="text-2xl text-gray-800 dark:text-gray-200" onClick={() => setMobileMenuOpen(false)}>Create Resume</Link>
-        {user && (
-          <Link to="/dashboard" className="text-2xl text-gray-800 dark:text-gray-200" onClick={() => setMobileMenuOpen(false)}>Dashboard</Link>
-        )}
 
-        {user ? (
-          <button onClick={handleLogout} className={btnGradient}>
-            <span className={btnGradientInner}></span>
-            <span className="relative flex items-center gap-1">
-              <MdLogout /> Logout
-            </span>
-          </button>
-        ) : (
-          <div className="flex flex-col gap-4 w-full">
-            <Link to="/login" className={btnGradient} onClick={() => setMobileMenuOpen(false)}>
-              <span className={btnGradientInner}></span>
-              <span className="relative text-xl text-center block">Login</span>
-            </Link>
-            <Link to="/signup" className={btnGradient} onClick={() => setMobileMenuOpen(false)}>
-              <span className={btnGradientInner}></span>
-              <span className="relative text-xl text-center block">Signup</span>
-            </Link>
-          </div>
-        )}
-      </div>
+<div
+  className={`fixed top-0 left-0 w-full h-screen z-40 flex flex-col items-center justify-center space-y-8 md:hidden transition-transform duration-500 overlay ${
+    mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+  }`}
+>
+  {/* CLOSE BUTTON - Ab ye Top Right par hoga */}
+  <button 
+    onClick={() => setMobileMenuOpen(false)} 
+    className="absolute top-6 right-8 p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white shadow-lg"
+  >
+    <MdClose size={30} />
+  </button>
+
+  {/* NAV LINKS */}
+  <Link to="/" className="text-2xl font-semibold" onClick={() => setMobileMenuOpen(false)}>Home</Link>
+  <Link to="/about" className="text-2xl font-semibold" onClick={() => setMobileMenuOpen(false)}>About</Link>
+  <Link to="/templates" className="text-2xl font-semibold" onClick={() => setMobileMenuOpen(false)}>Templates</Link>
+  <Link to="/Createresume" className="text-2xl font-semibold" onClick={() => setMobileMenuOpen(false)}>Create Resume</Link>
+  
+  {/* DASHBOARD LINK (Only for logged in users) */}
+  {user && (
+    <Link to="/dashboard" className="text-2xl font-semibold" onClick={() => setMobileMenuOpen(false)}>
+      Dashboard
+    </Link>
+  )}
+
+  {/* AUTH BUTTONS */}
+  {user ? (
+    <button onClick={handleLogout} className="nav-btn text-xl w-64 justify-center">
+      <MdLogout className="mr-2" /> Logout
+    </button>
+  ) : (
+    <div className="flex flex-col gap-4 w-64">
+      <Link to="/login" className="nav-btn text-center text-xl" onClick={() => setMobileMenuOpen(false)}>Login</Link>
+      <Link to="/signup" className="nav-btn text-center text-xl" onClick={() => setMobileMenuOpen(false)}>Signup</Link>
+    </div>
+  )}
+</div>
     </nav>
   );
 };

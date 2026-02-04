@@ -1,96 +1,39 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 
 const Template2 = () => {
   const location = useLocation();
   const formData = location.state?.formData;
-
   const cvRef = useRef(null);
   const [scale, setScale] = useState(1);
 
-  // Initial State
   const [data, setData] = useState({
     fullName: "SOPHIA ANDERSON",
     jobTitle: "UI/UX Designer & Researcher",
-    profile:
-      "Creative and user-focused designer with a passion for building seamless digital experiences. Expertise in wireframing, prototyping, and conducting user research to drive product success.",
+    profile: "Creative and user-focused designer with a passion for building seamless digital experiences.",
     email: "sophia.design@example.com",
     phone: "+44 20 7946 0958",
-    location: "London, United Kingdom",
-    website: "www.sophiadesigns.com",
-    linkedIn: "linkedin.com/in/sophia-a",
-    skills: [
-      "User Interface Design",
-      "Interaction Design",
-      "Figma",
-      "User Research",
-      "Visual Communication",
-    ],
+    location: "London, UK",
+    skills: ["Figma", "UI Design", "User Research"],
     experience: [
-      {
-        role: "Lead UI Designer",
-        company: "Pixel Studio",
-        year: "2021 - Present",
-        desc: "Crafting intuitive interfaces for high-traffic mobile apps and leading a team of junior designers.",
-      },
-      {
-        role: "Junior Designer",
-        company: "WebFlow Agency",
-        year: "2019 - 2021",
-        desc: "Collaborated with developers to create responsive web layouts and brand assets.",
-      },
+      { role: "Lead UI Designer", company: "Pixel Studio", year: "2021 - Present", desc: "Crafting intuitive interfaces for high-traffic mobile apps." }
     ],
     education: [
-      {
-        degree: "Bachelor of Design",
-        school: "University of the Arts London",
-        year: "2015 - 2019",
-      },
+      { degree: "Bachelor of Design", school: "UAL London", year: "2015 - 2019" }
     ],
-    languages: ["English (Native)", "French (Professional)"],
+    languages: ["English", "French"],
   });
 
-  // Sync formData if available
   useEffect(() => {
-    // Check if there's loaded resume data in localStorage
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const loadedResume = localStorage.getItem('loadedResume');
-      if (loadedResume) {
-        try {
-          const resumeData = JSON.parse(loadedResume);
-          setData(prev => ({ ...prev, ...resumeData }));
-          localStorage.removeItem('loadedResume'); // Clear after loading
-        } catch (error) {
-          console.error('Error loading resume data:', error);
-        }
-      } else if (formData) {
-        setData((prev) => ({
-          ...prev,
-          ...formData,
-          skills: formData.skills?.length ? formData.skills : prev.skills,
-          experience: formData.experience?.length ? formData.experience : prev.experience,
-          education: formData.education?.length ? formData.education : prev.education,
-        }));
-      }
-    } else if (formData) {
-      setData((prev) => ({
-        ...prev,
-        ...formData,
-        skills: formData.skills?.length ? formData.skills : prev.skills,
-        experience: formData.experience?.length ? formData.experience : prev.experience,
-        education: formData.education?.length ? formData.education : prev.education,
-      }));
-    }
+    if (formData) setData((prev) => ({ ...prev, ...formData }));
   }, [formData]);
 
-  // Handle mobile scaling
   useEffect(() => {
     const resize = () => {
       const screenWidth = window.innerWidth;
-      const cvWidth = 794; // 210mm in px
-      setScale(screenWidth < cvWidth ? screenWidth / cvWidth : 1);
+      const cvWidth = 794;
+      setScale(screenWidth < cvWidth ? (screenWidth - 20) / cvWidth : 1);
     };
     resize();
     window.addEventListener("resize", resize);
@@ -101,7 +44,7 @@ const Template2 = () => {
     if (index !== null && Array.isArray(data[field])) {
       const updated = [...data[field]];
       if (typeof updated[index] === "object") {
-        updated[index][subField] = value;
+        updated[index] = { ...updated[index], [subField]: value };
       } else {
         updated[index] = value;
       }
@@ -111,326 +54,174 @@ const Template2 = () => {
     }
   };
 
-  // Function to save resume data
-  const saveResume = () => {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      try {
-        const resumeData = {
-          ...data,
-          timestamp: new Date().toISOString(),
-          template: 'template2'
-        };
-        localStorage.setItem('savedResume', JSON.stringify(resumeData));
-        alert('Resume saved successfully!');
-      } catch (error) {
-        console.error('Error saving resume:', error);
-        alert('Failed to save resume. Please try again.');
-      }
-    } else {
-      alert('Unable to save resume. LocalStorage not available.');
-    }
-  };
+  // --- NEW STABLE DOWNLOAD LOGIC ---
+  const downloadPDF = () => {
+    const doc = new jsPDF("p", "mm", "a4");
 
-  const downloadPDF = async () => {
-    const element = cvRef.current;
-    if (!element) {
-      alert('Resume element not found. Please try again.');
-      return;
-    }
+    // 1. Header (Teal Background)
+    doc.setFillColor(19, 78, 74); // #134e4a
+    doc.rect(0, 0, 210, 55, "F");
 
-    try {
-      // Create a clone of the element for PDF generation without transforms
-      const clone = element.cloneNode(true);
-      clone.style.position = 'fixed';
-      clone.style.left = '-9999px';
-      clone.style.top = '0';
-      clone.style.transform = 'scale(1)';
-      clone.style.transformOrigin = 'top left';
-      clone.style.width = '210mm'; // A4 width
-      clone.style.height = '297mm'; // A4 height
+    // Name
+    doc.setTextColor(255, 255, 255);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(32);
+    doc.text(data.fullName, 20, 30);
 
-      document.body.appendChild(clone);
+    // Job Title
+    doc.setTextColor(94, 234, 212); // teal-300
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "normal");
+    doc.text(data.jobTitle, 20, 42);
 
-      const canvas = await html2canvas(clone, {
-        scale: 2, // Higher scale for better quality
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff',
-        logging: false,
-        width: clone.scrollWidth,
-        height: clone.scrollHeight,
-      });
+    // 2. Sidebar Background (Right Column)
+    doc.setFillColor(248, 250, 252); // slate-50
+    doc.rect(140, 55, 70, 242, "F");
 
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4',
-        compress: true
-      });
+    // 3. MAIN CONTENT (Left Column)
+    doc.setTextColor(20, 20, 20);
+    
+    // Experience Section
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(19, 78, 74);
+    doc.text("EXPERIENCE", 20, 75);
+    
+    let currentY = 85;
+    data.experience.forEach((exp) => {
+      doc.setTextColor(40, 40, 40);
+      doc.setFontSize(11);
+      doc.setFont("helvetica", "bold");
+      doc.text(exp.role, 20, currentY);
+      
+      doc.setFontSize(9);
+      doc.setFont("helvetica", "normal");
+      doc.setTextColor(100, 100, 100);
+      doc.text(`${exp.company} | ${exp.year}`, 20, currentY + 5);
+      
+      const splitDesc = doc.splitTextToSize(exp.desc, 100);
+      doc.text(splitDesc, 20, currentY + 12);
+      currentY += 30;
+    });
 
-      const imgWidth = 210; // A4 width in mm
-      const pageHeight = 297; // A4 height in mm
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    // 4. SIDEBAR CONTENT
+    doc.setTextColor(19, 78, 74);
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "bold");
+    doc.text("CONTACT", 145, 75);
 
-      let heightLeft = imgHeight;
-      let position = 0;
+    doc.setFontSize(9);
+    doc.setTextColor(60, 60, 60);
+    doc.setFont("helvetica", "normal");
+    doc.text(`Email: ${data.email}`, 145, 85);
+    doc.text(`Phone: ${data.phone}`, 145, 92);
+    doc.text(`Loc: ${data.location}`, 145, 99);
 
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
+    doc.setTextColor(19, 78, 74);
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "bold");
+    doc.text("SKILLS", 145, 120);
 
-      // Handle content that spans multiple pages
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-      }
+    doc.setFontSize(9);
+    doc.setTextColor(60, 60, 60);
+    doc.setFont("helvetica", "normal");
+    data.skills.forEach((skill, i) => {
+      doc.text(`• ${skill}`, 145, 130 + (i * 7));
+    });
 
-      pdf.save('resume.pdf');
-
-      // Remove the clone from the DOM
-      document.body.removeChild(clone);
-    } catch (error) {
-      console.error('Error generating PDF:', error);
-      alert('Error generating PDF. Please try again.');
-
-      // Ensure clone is removed in case of error
-      const existingClone = document.querySelector('[style*="position: fixed"][style*="left: -9999px"]');
-      if (existingClone) {
-        document.body.removeChild(existingClone);
-      }
-    }
-  };
-
-
-  const Icons = {
-    Mail: () => (
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-        />
-      </svg>
-    ),
-    Phone: () => (
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-        />
-      </svg>
-    ),
-    Location: () => (
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-        />
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-        />
-      </svg>
-    ),
+    doc.save(`${data.fullName}_Professional_CV.pdf`);
   };
 
   return (
-    <div className="min-h-screen bg-slate-200 py-12 px-2 flex justify-center font-sans mt-20 overflow-x-hidden">
-      <div className="flex justify-center w-full">
-        <div
-          style={{
-            transform: `scale(${scale})`,
-            transformOrigin: "top center",
-          }}
+    <div className="min-h-screen bg-slate-200 py-10 flex flex-col items-center mt-20">
+      
+      <button 
+        onClick={downloadPDF} 
+        className="mb-8 px-10 py-4 bg-teal-800 text-white font-bold rounded-lg shadow-xl hover:bg-teal-900 transition-all"
+      >
+        Download Professional PDF 📄
+      </button>
+
+      <div style={{ transform: `scale(${scale})`, transformOrigin: "top center" }}>
+        <div 
+          ref={cvRef} 
+          className="w-[210mm] min-h-[297mm] h-auto bg-white shadow-2xl flex flex-col overflow-hidden rounded-lg text-left"
         >
-          <div
-            ref={cvRef}
-            className="w-[210mm] min-h-[297mm] bg-white shadow-2xl flex flex-col overflow-hidden rounded-lg"
-          >
-            {/* HEADER */}
-            <div className="bg-[#134e4a] text-white p-12 relative overflow-hidden">
-              <div className="relative z-10">
-                <input
-                  value={data.fullName}
-                  onChange={(e) => handleChange("fullName", e.target.value)}
-                  className="text-5xl font-extrabold tracking-tight w-full bg-transparent focus:outline-none focus:ring-1 focus:ring-teal-300 rounded"
-                />
-                <input
-                  value={data.jobTitle}
-                  onChange={(e) => handleChange("jobTitle", e.target.value)}
-                  className="text-xl text-teal-300 font-medium mt-2 w-full bg-transparent focus:outline-none"
-                />
-              </div>
-              <div className="absolute -top-32 -right-32 w-64 h-64 bg-teal-800 rounded-full opacity-50"></div>
+          {/* Header */}
+          <div className="bg-[#134e4a] text-white p-12">
+            <input 
+              value={data.fullName} 
+              onChange={(e) => handleChange("fullName", e.target.value)} 
+              className="text-5xl font-extrabold w-full bg-transparent focus:outline-none border-b border-transparent hover:border-teal-400" 
+            />
+            <input 
+              value={data.jobTitle} 
+              onChange={(e) => handleChange("jobTitle", e.target.value)} 
+              className="text-xl text-teal-300 mt-2 w-full bg-transparent focus:outline-none border-b border-transparent hover:border-teal-400" 
+            />
+          </div>
+
+          {/* Main Body */}
+          <div className="flex flex-1">
+            {/* Left Content */}
+            <div className="w-[65%] p-10 border-r border-gray-100">
+              <section className="mb-10">
+                <h2 className="text-teal-900 font-black text-xs uppercase mb-6 tracking-widest border-b pb-2">Experience</h2>
+                <div className="space-y-8">
+                  {data.experience.map((exp, idx) => (
+                    <div key={idx} className="group">
+                      <input 
+                        value={exp.role} 
+                        onChange={(e) => handleChange("experience", e.target.value, idx, "role")} 
+                        className="font-bold text-gray-800 w-full focus:outline-none border-b border-transparent group-hover:border-gray-200" 
+                      />
+                      <textarea 
+                        value={exp.desc} 
+                        onChange={(e) => handleChange("experience", e.target.value, idx, "desc")} 
+                        className="text-sm text-gray-500 w-full resize-none h-auto bg-transparent mt-2 focus:outline-none"
+                        rows="3"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </section>
             </div>
 
-            {/* MAIN */}
-            <div className="flex flex-1">
-              {/* LEFT */}
-              <div className="w-[65%] p-10 border-r border-gray-100">
-                {/* PROFILE */}
-                <section className="mb-10">
-                  <h2 className="text-teal-900 font-black text-xs uppercase tracking-[0.3em] mb-4 flex items-center gap-2">
-                    <span className="w-8 h-0.5 bg-teal-600"></span> About Me
-                  </h2>
-                  <textarea
-                    value={data.profile}
-                    onChange={(e) => handleChange("profile", e.target.value)}
-                    className="w-full text-gray-600 leading-relaxed text-sm border-none focus:ring-0 resize-none h-24 bg-teal-50/30 p-2 rounded"
-                  />
-                </section>
+            {/* Sidebar */}
+            <div className="w-[35%] bg-slate-50 p-10">
+              <section className="mb-10">
+                <h3 className="text-teal-900 font-bold text-xs uppercase mb-6 tracking-widest">Contact</h3>
+                <input 
+                  value={data.email} 
+                  onChange={(e) => handleChange("email", e.target.value)} 
+                  className="text-sm text-gray-600 w-full bg-transparent mb-4 focus:outline-none border-b border-gray-200" 
+                />
+                <input 
+                  value={data.phone} 
+                  onChange={(e) => handleChange("phone", e.target.value)} 
+                  className="text-sm text-gray-600 w-full bg-transparent mb-4 focus:outline-none border-b border-gray-200" 
+                />
+              </section>
 
-                {/* EXPERIENCE */}
-                <section className="mb-10">
-                  <h2 className="text-teal-900 font-black text-xs uppercase tracking-[0.3em] mb-6 flex items-center gap-2">
-                    <span className="w-8 h-0.5 bg-teal-600"></span> Experience
-                  </h2>
-                  <div className="space-y-8">
-                    {data.experience.map((exp, idx) => (
-                      <div key={idx} className="group">
-                        <div className="flex justify-between items-start mb-1">
-                          <input
-                            value={exp.role}
-                            onChange={(e) => handleChange("experience", e.target.value, idx, "role")}
-                            className="font-bold text-gray-800 text-base focus:outline-none w-full"
-                          />
-                        </div>
-                        <div className="flex items-center gap-2 mb-2">
-                          <input
-                            value={exp.company}
-                            onChange={(e) => handleChange("experience", e.target.value, idx, "company")}
-                            className="text-teal-700 text-xs font-bold focus:outline-none w-fit"
-                          />
-                          <span className="text-gray-300">|</span>
-                          <input
-                            value={exp.year}
-                            onChange={(e) => handleChange("experience", e.target.value, idx, "year")}
-                            className="text-gray-400 text-xs focus:outline-none w-fit"
-                          />
-                        </div>
-                        <textarea
-                          value={exp.desc}
-                          onChange={(e) => handleChange("experience", e.target.value, idx, "desc")}
-                          className="text-xs text-gray-500 w-full focus:outline-none resize-none bg-transparent"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </section>
-
-                {/* EDUCATION */}
-                <section>
-                  <h2 className="text-teal-900 font-black text-xs uppercase tracking-[0.3em] mb-6 flex items-center gap-2">
-                    <span className="w-8 h-0.5 bg-teal-600"></span> Education
-                  </h2>
-                  <div className="space-y-6">
-                    {data.education.map((edu, idx) => (
-                      <div key={idx}>
-                        <input
-                          value={edu.degree}
-                          onChange={(e) => handleChange("education", e.target.value, idx, "degree")}
-                          className="font-bold text-gray-800 text-sm focus:outline-none w-full"
-                        />
-                        <div className="flex justify-between mt-1">
-                          <input
-                            value={edu.school}
-                            onChange={(e) => handleChange("education", e.target.value, idx, "school")}
-                            className="text-gray-500 text-xs focus:outline-none w-2/3"
-                          />
-                          <input
-                            value={edu.year}
-                            onChange={(e) => handleChange("education", e.target.value, idx, "year")}
-                            className="text-gray-400 text-xs focus:outline-none text-right w-1/3"
-                          />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              </div>
-
-              {/* RIGHT */}
-              <div className="w-[35%] bg-slate-50 p-10 flex flex-col gap-10">
-                {/* Contact */}
-                <div>
-                  <h3 className="text-teal-900 font-black text-xs uppercase tracking-[0.2em] mb-6">Contact Details</h3>
-                  <div className="space-y-4">
-                    <ContactItem icon={<Icons.Phone />} value={data.phone} onChange={(v) => handleChange("phone", v)} />
-                    <ContactItem icon={<Icons.Mail />} value={data.email} onChange={(v) => handleChange("email", v)} />
-                    <ContactItem icon={<Icons.Location />} value={data.location} onChange={(v) => handleChange("location", v)} />
-                  </div>
-                </div>
-
-                {/* Skills */}
-                <div>
-                  <h3 className="text-teal-900 font-black text-xs uppercase tracking-[0.2em] mb-6">Expertise</h3>
-                  <div className="flex flex-col gap-3">
-                    {data.skills.map((skill, idx) => (
-                      <div key={idx} className="flex flex-col">
-                        <input
-                          value={skill}
-                          onChange={(e) => handleChange("skills", e.target.value, idx)}
-                          className="text-xs font-semibold text-gray-700 bg-transparent focus:outline-none mb-1"
-                        />
-                        <div className="w-full h-1 bg-gray-200 rounded-full overflow-hidden">
-                          <div className="w-4/5 h-full bg-teal-600"></div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Languages */}
-                <div>
-                  <h3 className="text-teal-900 font-black text-xs uppercase tracking-[0.2em] mb-4">Languages</h3>
-                  {data.languages.map((lang, idx) => (
-                    <input
-                      key={idx}
-                      value={lang}
-                      onChange={(e) => handleChange("languages", e.target.value, idx)}
-                      className="bg-transparent text-sm text-gray-600 w-full focus:outline-none mb-1 block italic"
+              <section>
+                <h3 className="text-teal-900 font-bold text-xs uppercase mb-6 tracking-widest">Skills</h3>
+                <div className="space-y-3">
+                  {data.skills.map((skill, i) => (
+                    <input 
+                      key={i}
+                      value={skill}
+                      onChange={(e) => handleChange("skills", e.target.value, i)}
+                      className="text-sm text-gray-600 w-full bg-transparent focus:outline-none border-b border-gray-100"
                     />
                   ))}
                 </div>
-              </div>
+              </section>
             </div>
           </div>
         </div>
       </div>
-      {/* Download and Save Buttons */}
-      <div className="mt-6 text-center flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <button
-          onClick={saveResume}
-          className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-semibold shadow-lg"
-        >
-          Save Resume
-        </button>
-        <button
-          onClick={downloadPDF}
-          className="px-6 py-3 bg-[#134e4a] text-white rounded-lg hover:bg-[#0f3d3a] transition-colors font-semibold shadow-lg"
-        >
-          Download PDF
-        </button>
-      </div>
     </div>
   );
 };
-
-// Contact Item
-const ContactItem = ({ icon, value, onChange }) => (
-  <div className="flex items-start gap-3">
-    <span className="text-teal-600 mt-0.5">{icon}</span>
-    <input value={value} onChange={(e) => onChange(e.target.value)} className="bg-transparent text-[11px] text-gray-600 focus:outline-none w-full leading-tight" />
-  </div>
-);
 
 export default Template2;

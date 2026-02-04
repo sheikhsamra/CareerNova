@@ -1,103 +1,90 @@
 import Navbar from "../components/Navbar";
 import { FaFileAlt, FaPalette, FaLock } from "react-icons/fa";
-import about from "../assets/about.avif"; // resume / workspace image
+import about from "../assets/about.avif"; 
+import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const About = () => {
+  const { user } = useAuth();
+
   return (
     <>
       <Navbar />
-
-      <main className="min-h-screen px-6 md:px-20 py-20 
-        bg-white dark:bg-black 
-        text-gray-900 dark:text-gray-100 
-        transition-colors duration-300 mt-20"
-      >
+      <main className="about-main min-h-screen px-6 md:px-20 py-20 mx-auto max-w-425 transition-colors duration-300">
+        
         {/* HERO SECTION */}
-        <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
-          
-          {/* TEXT */}
-          <div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 
-              bg-clip-text text-transparent 
-              bg-linear-to-r from-[#10b98c] via-[#facc15] to-[#10b98c]">
-              About CareerNova
-            </h1>
+        <div className="grid md:grid-cols-2 gap-12 items-center mb-24 ">
 
-            <p className="text-lg mb-4 text-gray-600 dark:text-gray-300">
-              CareerNova is a modern resume builder designed to help you create
-              professional, ATS-friendly resumes in minutes — no design skills
-              required.
-            </p>
-
-            <p className="text-lg text-gray-600 dark:text-gray-300">
-              Select a template, enter your details, preview live, and download
-              your resume instantly as a PDF.
-            </p>
-          </div>
-
-          {/* IMAGE */}
-          <div className="relative">
+          <div className="relative group">
+            <div className="image-glow-effect"></div>
             <img
               src={about}
               alt="About CareerNova"
-              className="rounded-xl shadow-lg w-full"
+              className="relative rounded-xl w-full transform transition duration-500 hover:scale-[1.02]"
             />
+          </div>
+
+          <div className="space-y-6">
+            <h1 className="text-4xl md:text-6xl font-extrabold heading">
+              About CareerNova
+            </h1>
+            <p className="text-lg md:text-xl about-text leading-relaxed">
+              CareerNova is a modern resume builder designed to help you create
+              professional, <span className="highlight-text">ATS-friendly</span> resumes in minutes.
+            </p>
+            <p className="text-lg about-text leading-relaxed">
+              Select a template, enter your details, preview live, and download
+              your resume instantly as a PDF.
+            </p>
+            
+            <div className="pt-4">
+               <Link to={user ? "/Createresume" : "/signup"}>
+                  <button className="btn">
+                    {user ? "Create My Resume" : "Get Started Now"}
+                  </button>
+               </Link>
+            </div>
           </div>
         </div>
 
-        {/* FEATURES */}
-        <div className="text-center mb-14">
-          <h2 className="text-3xl font-bold mb-4">
+        {/* FEATURES HEADER */}
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 about-title">
             Why Choose CareerNova?
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Everything you need to build a powerful resume — simple, fast, and secure.
-          </p>
+          <div className="h-1 w-20 custom-line mx-auto rounded-full mb-6"></div>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* FEATURES GRID */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
           
           {/* CARD 1 */}
-          <div className="p-6 rounded-xl shadow-md 
-            bg-gray-50 dark:bg-[#0d312a] 
-            hover:-translate-y-2 transition-all duration-300"
-          >
-            <FaFileAlt className="text-4xl mb-4 text-[#10b98c]" />
-            <h3 className="text-xl font-semibold mb-2">
-              Easy Resume Creation
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              Build professional resumes with pre-designed templates in just a few clicks.
-            </p>
+          <div className="about-card-theme group p-8 rounded-2xl border transition-all duration-300 hover:-translate-y-3 shadow-sm">
+            <div className="w-14 h-14 icon-bg-teal rounded-lg flex items-center justify-center mb-6 group-hover:bg-[#10b98c] transition-colors">
+              <FaFileAlt className="text-3xl icon-teal group-hover:text-white" />
+            </div>
+            <h3 className="text-2xl font-bold mb-3 card-title">Easy Creation</h3>
+            <p className="about-text">Build professional resumes with pre-designed templates in just a few clicks.</p>
           </div>
 
           {/* CARD 2 */}
-          <div className="p-6 rounded-xl shadow-md 
-            bg-gray-50 dark:bg-[#0d312a] 
-            hover:-translate-y-2 transition-all duration-300"
-          >
-            <FaPalette className="text-4xl mb-4 text-[#facc15]" />
-            <h3 className="text-xl font-semibold mb-2">
-              Modern Templates
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              Clean, creative, and ATS-friendly resume designs for every profession.
-            </p>
+          <div className="about-card-theme group p-8 rounded-2xl border transition-all duration-300 hover:-translate-y-3 shadow-sm">
+            <div className="w-14 h-14 icon-bg-yellow rounded-lg flex items-center justify-center mb-6 group-hover:bg-[#facc15] transition-colors">
+              <FaPalette className="text-3xl icon-yellow group-hover:text-white" />
+            </div>
+            <h3 className="text-2xl font-bold mb-3 card-title">Modern Designs</h3>
+            <p className="about-text">Clean, creative, and ATS-friendly resume designs for every profession.</p>
           </div>
 
           {/* CARD 3 */}
-          <div className="p-6 rounded-xl shadow-md 
-            bg-gray-50 dark:bg-[#0d312a] 
-            hover:-translate-y-2 transition-all duration-300"
-          >
-            <FaLock className="text-4xl mb-4 text-[#48fad6]" />
-            <h3 className="text-xl font-semibold mb-2">
-              Secure & Private
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              Firebase Authentication & Firestore keep your data safe and secure.
-            </p>
+          <div className="about-card-theme group p-8 rounded-2xl border transition-all duration-300 hover:-translate-y-3 shadow-sm">
+            <div className="w-14 h-14 icon-bg-cyan rounded-lg flex items-center justify-center mb-6 group-hover:bg-[#48fad6] transition-colors">
+              <FaLock className="text-3xl icon-cyan group-hover:text-white" />
+            </div>
+            <h3 className="text-2xl font-bold mb-3 card-title">Secure & Private</h3>
+            <p className="about-text">Firebase Authentication & Firestore keep your data safe and secure.</p>
           </div>
+
         </div>
       </main>
     </>
